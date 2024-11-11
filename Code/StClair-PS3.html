@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.553">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Problem Set 3 - Statistics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="StClair-PS3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="StClair-PS3_files/libs/quarto-html/quarto.js"></script>
+<script src="StClair-PS3_files/libs/quarto-html/popper.min.js"></script>
+<script src="StClair-PS3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="StClair-PS3_files/libs/quarto-html/anchor.min.js"></script>
+<link href="StClair-PS3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="StClair-PS3_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="StClair-PS3_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="StClair-PS3_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="StClair-PS3_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Problem Set 3 - Statistics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>())</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'here' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at C:/Users/sarao/OneDrive - St. Lawrence University/Classes/fall junior/biostats/R_projects/StClair-PS3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggfortify)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'ggfortify' was built under R version 4.3.3</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(multcomp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'multcomp' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: mvtnorm</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'mvtnorm' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: survival</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: TH.data</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'TH.data' was built under R version 4.3.3</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: MASS</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'TH.data'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    geyser</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:MASS':
+
+    select</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>bats<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"Data"</span>, <span class="st">"bat_data.csv"</span>))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(bats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Rows: 125
+Columns: 9
+$ Species        &lt;chr&gt; "EPFU", "EPFU", "EPFU", "EPFU", "EPFU", "EPFU", "EPFU",…
+$ common_name    &lt;chr&gt; "big brown bat", "big brown bat", "big brown bat", "big…
+$ age            &lt;chr&gt; "adult", "adult", "subadult", "subadult", "adult", "sub…
+$ sex            &lt;chr&gt; "male", "female", "female", "male", "female", "male", "…
+$ type           &lt;chr&gt; "cave", "cave", "cave", "cave", "cave", "cave", "cave",…
+$ mass_g         &lt;dbl&gt; 16.3, 16.9, 18.1, 18.7, 18.9, 18.9, 19.6, 19.7, 20.1, 2…
+$ tick_num       &lt;int&gt; 5, 6, 4, 6, 4, 7, 5, 6, 8, 4, 6, 6, 7, 4, 6, 7, 4, 5, 2…
+$ body_length_mm &lt;int&gt; 101, 103, 117, 109, 101, 123, 115, 105, 118, 120, 121, …
+$ tail_length_mm &lt;int&gt; 50, 48, 63, 54, 42, 67, 56, 44, 55, 58, 60, 71, 45, 53,…</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>bats<span class="sc">$</span>Species<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bats<span class="sc">$</span>Species)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>bats<span class="sc">$</span>common_name<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bats<span class="sc">$</span>common_name)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>bats<span class="sc">$</span>age<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bats<span class="sc">$</span>age)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>bats<span class="sc">$</span>sex<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bats<span class="sc">$</span>sex)</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>bats<span class="sc">$</span>type<span class="ot">&lt;-</span> <span class="fu">as.factor</span>(bats<span class="sc">$</span>type)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A. Does body mass differ between these five species of bats and, if so, how does body mass differ between the species? - Species the predictor variable is categorical and body mass the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body mass (mass_g) between the five species of bats and the Alternative Hypothesis is that there is a difference in body mass (mass_g) between at least two of the five species of bats.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bats, <span class="fu">aes</span>(<span class="at">x =</span> Species, <span class="at">y=</span>mass_g))<span class="sc">+</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The mean for PESU looks to be about 7g, for MYLU looks to be about 11g, for LANO looks to be about 14g, for LACI looks to be about 28, and for EPFU looks to be about 21g. Based on the distribution of the box plots I would guess that there will not be a difference between PESU, MYLU, and LANO but between EPFU/LACI and those three there will be and between EPFU and LACI there will be a difference as well.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>model_bat<span class="ot">&lt;-</span> <span class="fu">lm</span>(mass_g<span class="sc">~</span>Species, <span class="at">data =</span> bats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model_bat, <span class="at">smooth.colour =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).
+Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs.&nbsp;Fitted), the variance appears approximately equal across species, suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the Eptesicus fuscus (EPFU) and Lasionycteris noctivagans (LACI) species show slightly more variation in residuals, but the variation is not excessive. Finally, in the bottom right plot (Residuals vs.&nbsp;Leverage), EPFU and LACI species exhibit more leverage due to an outlier, but the leverage is not extreme enough to unduly influence the model. Overall, the model assumptions seem to hold reasonably well, with only minor issues related to the leverage of outliers in a couple of species.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_bat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: mass_g
+           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+Species     4 6424.4 1606.11   792.9 &lt; 2.2e-16 ***
+Residuals 120  243.1    2.03                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant and F(4,120) = 792.9 indicating much more variance between species that within. This suggests that there is evidence of a difference in body mass (mass_g) across the different species and we can reject the Null Hypothesis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_bat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mass_g ~ Species, data = bats)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-5.760 -0.760  0.132  0.840  4.368 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  20.5320     0.2846   72.13   &lt;2e-16 ***
+SpeciesLACI   6.8280     0.4026   16.96   &lt;2e-16 ***
+SpeciesLANO  -6.0640     0.4026  -15.06   &lt;2e-16 ***
+SpeciesMYLU -10.1200     0.4026  -25.14   &lt;2e-16 ***
+SpeciesPESU -13.1240     0.4026  -32.60   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.423 on 120 degrees of freedom
+Multiple R-squared:  0.9635,    Adjusted R-squared:  0.9623 
+F-statistic: 792.9 on 4 and 120 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>From the summary table, we see that EPFU is the intercept. Comparing the other species to EPFU, there are significant differences in body mass (mass_g).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>bat_tukey<span class="ot">&lt;-</span> <span class="fu">glht</span>(model_bat, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">Species =</span> <span class="st">"Tukey"</span>))</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bat_tukey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = mass_g ~ Species, data = bats)
+
+Linear Hypotheses:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+LACI - EPFU == 0   6.8280     0.4026  16.962   &lt;1e-10 ***
+LANO - EPFU == 0  -6.0640     0.4026 -15.064   &lt;1e-10 ***
+MYLU - EPFU == 0 -10.1200     0.4026 -25.140   &lt;1e-10 ***
+PESU - EPFU == 0 -13.1240     0.4026 -32.602   &lt;1e-10 ***
+LANO - LACI == 0 -12.8920     0.4026 -32.026   &lt;1e-10 ***
+MYLU - LACI == 0 -16.9480     0.4026 -42.101   &lt;1e-10 ***
+PESU - LACI == 0 -19.9520     0.4026 -49.564   &lt;1e-10 ***
+MYLU - LANO == 0  -4.0560     0.4026 -10.076   &lt;1e-10 ***
+PESU - LANO == 0  -7.0600     0.4026 -17.538   &lt;1e-10 ***
+PESU - MYLU == 0  -3.0040     0.4026  -7.462   &lt;1e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(bat_tukey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EPFU LACI LANO MYLU PESU 
+ "a"  "b"  "c"  "d"  "e" </code></pre>
+</div>
+</div>
+<p>Looking at the Tukey and CLD output, each species is assigned a unique letter, indicating that the body mass (mass_g) of each species differs significantly from the others.LACI has a 6.83g higher body mass compared to EPFU, while LANO, MYLU, and PESU have lower body masses relative to EPFU, with differences of -6.06g, -10.12g, and -13.12g. LANO is -12.89g lower than LACI, MYLU is -16.95g lower than LACI, and PESU is -19.95g lower than LACI. Additionally, MYLU is -4.06g lower than LANO, PESU is -7.06g lower than LANO, and PESU is -3.00g lower than MYLU. These significant differences indicate that EPFU has the highest body mass, with PESU the lowest, while the others fall in between.</p>
+<p>B. Does body length differ between these five species of bats and, if so, how does body mass differ between the species?</p>
+<p>Species the predictor variable is categorical and body length the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body length (body_length_mm) between the five species of bats and the Alternative Hypothesis is that there is a difference in body length (body_length_mm) between at least two of the five species of bats.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bats, <span class="fu">aes</span>(<span class="at">x =</span> Species, <span class="at">y=</span>body_length_mm))<span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The mean for PESU looks to be about 85mm, for MYLU looks to be about 92mm, for LANO looks to be about 105mm, for LACI looks to be about 145mm, and for EPFU looks to be about 123. Based on the distribution of the box plots I would guess that there will not be a difference between PESU, MYLU, and LANO but between EPFU/LACI and those three there will be and between EPFU and LACI there will be a difference as well.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>model_bat1<span class="ot">&lt;-</span> <span class="fu">lm</span>(body_length_mm<span class="sc">~</span>Species, <span class="at">data =</span> bats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model_bat1, <span class="at">smooth.colour =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).
+Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs.&nbsp;Fitted), the variance appears approximately equal across species, suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the variation appear similar among the different species. Finally, in the bottom right plot (Residuals vs.&nbsp;Leverage), the leverage appear to be about the same across different species. Overall, the model assumptions seem to hold reasonably well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_bat1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: body_length_mm
+           Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+Species     4  62044   15511  70.498 &lt; 2.2e-16 ***
+Residuals 120  26403     220                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant also, F(4,120)=70.498 indicating that there is more variation between Species than within them. This suggests that there is evidence of a difference in body length (body_length_mm) across the different species and we can reject the Null Hypothesis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_bat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = mass_g ~ Species, data = bats)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-5.760 -0.760  0.132  0.840  4.368 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  20.5320     0.2846   72.13   &lt;2e-16 ***
+SpeciesLACI   6.8280     0.4026   16.96   &lt;2e-16 ***
+SpeciesLANO  -6.0640     0.4026  -15.06   &lt;2e-16 ***
+SpeciesMYLU -10.1200     0.4026  -25.14   &lt;2e-16 ***
+SpeciesPESU -13.1240     0.4026  -32.60   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.423 on 120 degrees of freedom
+Multiple R-squared:  0.9635,    Adjusted R-squared:  0.9623 
+F-statistic: 792.9 on 4 and 120 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>From the summary table, we see that EPFU is the intercept. Comparing the other species to EPFU, there are significant differences in body length (body_length_mm).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>bat1_tukey<span class="ot">&lt;-</span> <span class="fu">glht</span>(model_bat1, <span class="at">linfct =</span> <span class="fu">mcp</span>(<span class="at">Species =</span> <span class="st">"Tukey"</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bat1_tukey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Simultaneous Tests for General Linear Hypotheses
+
+Multiple Comparisons of Means: Tukey Contrasts
+
+
+Fit: lm(formula = body_length_mm ~ Species, data = bats)
+
+Linear Hypotheses:
+                 Estimate Std. Error t value Pr(&gt;|t|)    
+LACI - EPFU == 0   22.640      4.195   5.396  &lt; 1e-04 ***
+LANO - EPFU == 0  -16.720      4.195  -3.985  0.00110 ** 
+MYLU - EPFU == 0  -31.040      4.195  -7.398  &lt; 1e-04 ***
+PESU - EPFU == 0  -39.520      4.195  -9.420  &lt; 1e-04 ***
+LANO - LACI == 0  -39.360      4.195  -9.382  &lt; 1e-04 ***
+MYLU - LACI == 0  -53.680      4.195 -12.795  &lt; 1e-04 ***
+PESU - LACI == 0  -62.160      4.195 -14.816  &lt; 1e-04 ***
+MYLU - LANO == 0  -14.320      4.195  -3.413  0.00766 ** 
+PESU - LANO == 0  -22.800      4.195  -5.434  &lt; 1e-04 ***
+PESU - MYLU == 0   -8.480      4.195  -2.021  0.26222    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+(Adjusted p values reported -- single-step method)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cld</span>(bat1_tukey)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>EPFU LACI LANO MYLU PESU 
+ "a"  "b"  "c"  "d"  "d" </code></pre>
+</div>
+</div>
+<p>Looking at the Tukey and CLD output, each species is assigned a unique letter, indicating that the body length (body_length_mm) of each species differs significantly from the others. Specifically, LACI has a 22.64mm longer body length compared to EPFU, while LANO, MYLU, and PESU have shorter body lengths relative to EPFU, with differences of -16.72mm, -31.04mm, and -39.52mm, respectively. Further comparisons show that LANO is -39.36mm shorter than LACI, MYLU is -53.68mm shorter than LACI, and PESU is -62.16mm shorter than LACI. Additionally, MYLU is -14.32mm shorter than LANO, PESU is -22.80mm shorter than LANO, and PESU is -8.48mm shorter than MYLU, though this last difference is not statistically significant. These findings indicate that EPFU has the longest body length overall, with PESU the shortest, and the other species vary between these two.</p>
+<p>C. Is the number of ticks found on the bats associated with their sex or age?</p>
+<p>D. Disregarding species, is there a relationship in bats between tail length and body length?</p>
+<p>Both the predictor variable, body length, and the response variable, tail length, are continuous data, and since we are testing for a relationship between these two variables with only one predictor, a linear regression analysis is appropriate. The null hypothesis is that there is no relationship between body length and tail length, while the alternative hypothesis is that there is a relationship between body length and tail length.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bats, <span class="fu">aes</span>(<span class="at">x =</span> body_length_mm, <span class="at">y =</span> tail_length_mm))<span class="sc">+</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There appears to be a positive relationship between tail length and body length, where as body length increases, tail length also increases. The range for body length spans from 60 to 177, while the range for tail length spans from about 10 to 100. Based on this, the estimated slope of the relationship is approximately (100 - 10) / (177 - 60) = 0.77. The y-intercept seems to be around -10. There are no significant outliers evident in the data, and the distribution appears to be normal, suggesting a valid linear relationship between the two variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>model_bat3<span class="ot">&lt;-</span> <span class="fu">lm</span>(tail_length_mm<span class="sc">~</span>body_length_mm, <span class="at">data =</span> bats)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(model_bat3, <span class="at">smooth.colour =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).
+Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).
+Removed 125 rows containing missing values or values outside the scale range
+(`geom_line()`).</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs.&nbsp;Fitted), the variance appears approximately equal suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the variation appear similar. Finally, in the bottom right plot (Residuals vs.&nbsp;Leverage), the leverage appear to be about the same with a few datapoint having larger leverage but not too many to be concerning. Overall, the model assumptions seem to hold reasonably well.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model_bat3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Variance Table
+
+Response: tail_length_mm
+                Df Sum Sq Mean Sq F value    Pr(&gt;F)    
+body_length_mm   1  33391   33391  1037.2 &lt; 2.2e-16 ***
+Residuals      123   3960      32                      
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant, and F(1,123) = 1037.2, indicating a large effect size. The large F-value suggests that the variability in tail length is largely explained by the variability in body length, and the relationship between the two variables is strong. This provides evidence of a significant relationship in bats between tail length and body length, allowing us to reject the null hypothesis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_bat3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = tail_length_mm ~ body_length_mm, data = bats)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-12.4242  -4.3148   0.1779   3.4913  13.7551 
+
+Coefficients:
+                Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)    -14.83738    2.16786  -6.844 3.22e-10 ***
+body_length_mm   0.61443    0.01908  32.206  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 5.674 on 123 degrees of freedom
+Multiple R-squared:  0.894, Adjusted R-squared:  0.8931 
+F-statistic:  1037 on 1 and 123 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>In conclusion, the analysis of the relationship between body length and tail length in bats shows a statistically significant result. The estimated slope of 0.614 and intercept of -14.837 closely align with the predicted values, confirming a strong positive relationship between body length and tail length. The high F-statistic (1037) and low p-value (&lt; 2.2e-16) further support this significant relationship, with an R-squared value of 0.894 indicating that approximately 89.4% of the variation in tail length can be explained by body length. As a result, we reject the null hypothesis and conclude that body length is a significant predictor of tail length in bats.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bats, <span class="fu">aes</span>(<span class="at">x =</span> body_length_mm, <span class="at">y =</span> tail_length_mm))<span class="sc">+</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">'lm'</span>)<span class="sc">+</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="StClair-PS3_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Adding the method = ‘lm’ shows that a linear model is correct for this test and the two variables are related.</p>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

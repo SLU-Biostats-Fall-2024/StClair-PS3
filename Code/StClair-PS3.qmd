@@ -1,0 +1,230 @@
+---
+title: "Problem Set 3 - Statistics"
+format: html
+editor: visual
+---
+
+```{r}
+rm(list=ls())
+library(here)
+library(ggplot2)
+library(ggfortify)
+library(multcomp)
+library(dplyr)
+```
+
+```{r}
+bats<- read.csv(here("Data", "bat_data.csv"))
+glimpse(bats)
+bats$Species<- as.factor(bats$Species)
+bats$common_name<- as.factor(bats$common_name)
+bats$age<- as.factor(bats$age)
+bats$sex<- as.factor(bats$sex)
+bats$type<- as.factor(bats$type)
+#fixing the data types
+levels(bats$Species)
+levels(bats$common_name)
+levels(bats$age)
+levels(bats$sex)
+levels(bats$type)
+#making sure the levels are correct and there are no misspelled names
+```
+
+A. Does body mass differ between these five species of bats and, if so, how does body mass differ between the species? 
+- Species the predictor variable is categorical and body mass the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body mass (mass_g) between the five species of bats and the Alternative Hypothesis is that there is a difference in body mass (mass_g) between at least two of the five species of bats.
+
+```{r}
+ggplot(bats, aes(x = Species, y=mass_g))+
+  geom_boxplot()+
+  theme_bw()+
+  coord_flip()
+```
+
+-   The mean for PESU looks to be about 7g, for MYLU looks to be about 11g, for LANO looks to be about 14g, for LACI looks to be about 28, and for EPFU looks to be about 21g. Based on the distribution of the box plots I would guess that there will not be a difference between PESU, MYLU, and LANO but between EPFU/LACI and those three there will be and between EPFU and LACI there will be a difference as well.
+
+```{r}
+model_bat<- lm(mass_g~Species, data = bats)
+#creating lm
+```
+
+```{r}
+autoplot(model_bat, smooth.colour = NA)
+#checking assumptions
+```
+
+The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs. Fitted), the variance appears approximately equal across species, suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the EPFU and LACI species show slightly more variation in residuals, but the variation is not excessive. Finally, in the bottom right plot (Residuals vs. Leverage), EPFU and LACI exhibit more leverage due to an outlier, but the leverage is not extreme enough to unduly influence the model. Overall, the model assumptions seem to hold reasonably well, with only minor issues related to the leverage of outliers in a couple of species.
+
+```{r}
+anova(model_bat)
+```
+
+From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant and F(4,120) = 792.9 indicating much more variance between species that within. This suggests that there is evidence of a difference in body mass (mass_g) across the different species and we can reject the Null Hypothesis.
+
+```{r}
+summary(model_bat)
+```
+
+From the summary table, we see that EPFU is the intercept. Comparing the other species to EPFU, there are significant differences in body mass (mass_g).
+
+```{r}
+bat_tukey<- glht(model_bat, linfct = mcp(Species = "Tukey"))
+summary(bat_tukey)
+cld(bat_tukey)
+```
+
+Looking at the Tukey and CLD output, each species is assigned a unique letter, indicating that the body mass (mass_g) of each species differs significantly from the others.LACI has a 6.83g higher body mass compared to EPFU, while LANO, MYLU, and PESU have lower body masses relative to EPFU, with differences of -6.06g, -10.12g, and -13.12g. LANO is -12.89g lower than LACI, MYLU is -16.95g lower than LACI, and PESU is -19.95g lower than LACI. Additionally, MYLU is -4.06g lower than LANO, PESU is -7.06g lower than LANO, and PESU is -3.00g lower than MYLU. These significant differences indicate that EPFU has the highest body mass, with PESU the lowest, while the others fall in between.
+
+```{r}
+sumDat <- bats |> group_by(Species) |> summarise(meanMASS = mean(mass_g))
+```
+
+```{r}
+ggplot(bats, aes(Species, mass_g, color = Species))+
+     geom_point(size = 3)+
+     geom_point(data = sumDat, aes(Species, meanMASS, fill = Species), shape = 23, size = 5)+
+     coord_flip()+
+     theme_bw()+
+  labs(title= "Mass of Bats by Species", 
+  caption = "An ANOVA test revealed a significant difference in body mass among the five bat species, 
+𝐹(4,120)=792.9,𝑝<0.05 indicating substantial variation across species. Post-hoc Tukey’s HSD test showed each species has a unique mean body mass, with LACI having the highest mean mass, 6.83g greater than EPFU, while PESU displayed the lowest mean mass, 13.12g less than EPFU. LANO and MYLU also had significantly lower masses than EPFU, at -6.06g and -10.12g, respectively. Each species received a unique letter in the CLD output, confirming all pairwise differences were statistically significant, with body mass ranking from highest in LACI to lowest in PESU.")
+```
+
+B. Does body length differ between these five species of bats and, if so, how does body mass differ between the species?
+
+Species the predictor variable is categorical and body length the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body length (body_length_mm) between the five species of bats and the Alternative Hypothesis is that there is a difference in body length (body_length_mm) between at least two of the five species of bats.
+
+```{r}
+ggplot(bats, aes(x = Species, y=body_length_mm))+
+  geom_boxplot()+
+  theme_bw()+
+  coord_flip()
+
+```
+
+-   The mean for PESU looks to be about 85mm, for MYLU looks to be about 92mm, for LANO looks to be about 105mm, for LACI looks to be about 145mm, and for EPFU looks to be about 123. Based on the distribution of the box plots I would guess that there will not be a difference between PESU, MYLU, and LANO but between EPFU/LACI and those three there will be and between EPFU and LACI there will be a difference as well.
+
+```{r}
+model_bat1<- lm(body_length_mm~Species, data = bats)
+```
+
+```{r}
+autoplot(model_bat1, smooth.colour = NA)
+```
+
+The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs. Fitted), the variance appears approximately equal across species, suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the variation appear similar among the different species. Finally, in the bottom right plot (Residuals vs. Leverage), the leverage appear to be about the same across different species. Overall, the model assumptions seem to hold reasonably well.
+
+```{r}
+anova(model_bat1)
+```
+
+From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant also, F(4,120)=70.498 indicating that there is more variation between Species than within them. This suggests that there is evidence of a difference in body length (body_length_mm) across the different species and we can reject the Null Hypothesis.
+
+```{r}
+summary(model_bat)
+```
+
+From the summary table, we see that EPFU is the intercept. Comparing the other species to EPFU, there are significant differences in body length (body_length_mm).
+
+```{r}
+bat1_tukey<- glht(model_bat1, linfct = mcp(Species = "Tukey"))
+summary(bat1_tukey)
+cld(bat1_tukey)
+```
+
+Looking at the Tukey and CLD output, each species is assigned a unique letter, indicating that the body length (body_length_mm) of each species differs significantly from the others. Specifically, LACI has a 22.64mm longer body length compared to EPFU, while LANO, MYLU, and PESU have shorter body lengths relative to EPFU, with differences of -16.72mm, -31.04mm, and -39.52mm, respectively. Further comparisons show that LANO is -39.36mm shorter than LACI, MYLU is -53.68mm shorter than LACI, and PESU is -62.16mm shorter than LACI. Additionally, MYLU is -14.32mm shorter than LANO, PESU is -22.80mm shorter than LANO, and PESU is -8.48mm shorter than MYLU, though this last difference is not statistically significant. These findings indicate that EPFU has the longest body length overall, with PESU the shortest, and the other species vary between these two.
+
+```{r}
+sumDat1 <- bats |> group_by(Species) |> summarise(meanLENGTH = mean(body_length_mm))
+```
+
+```{r}
+ggplot(bats, aes(Species, body_length_mm, color = Species))+
+     geom_point(size = 3)+
+     geom_point(data = sumDat1, aes(Species, meanLENGTH, fill = Species), shape = 23, size = 5)+
+     coord_flip()+
+     theme_bw()+
+  labs(title = "Body Length of Bats by Species", caption = "An ANOVA test indicated a significant difference in body length among the five bat species
+F(4,120)=70.498,p<0.05, suggesting considerable variation across species. Post-hoc Tukey’s HSD results revealed that each species has a unique mean body length, with LACI showing the longest mean length, 22.64mm greater than EPFU, while PESU had the shortest, 39.52mm less than EPFU. LANO and MYLU also showed significantly shorter body lengths than EPFU, with differences of -16.72mm and -31.04mm, respectively. The CLD output confirmed significant pairwise differences, with body length ranking from highest in LACI to lowest in PESU.")
+```
+
+C. Is the number of ticks found on the bats associated with their sex or age? The response variable, number of ticks found, is discrete, and there are two categorical predictor variables (sex and age). We are interested in determining whether there is an association between the number of ticks and these categorical variables. Since we are examining the relationship between two categorical variables, the appropriate test to run is the Chi-square test of independence. This test will assess whether the observed distribution of ticks differs significantly from what would be expected if sex and age were independent of the number of ticks.
+The null hypothesis is that there is no association between the number of ticks and the sex or age of the bats. Alternative Hypothesis is that there is an association between the number of ticks and the sex or age of the bats.
+
+```{r}
+totals<- bats |> group_by(age, sex)|>
+  summarise(total.number=sum(tick_num))
+```
+
+```{r}
+ggplot(totals, aes(x = age, y= total.number, fill = sex))+
+  geom_bar(stat='identity', position = 'dodge')
+```
+
+From this graph, it does not seem as though there is a difference in tick number between females that are adults or subadults, with the total number of ticks for female adults being about 150 and for female subadults being about 145. However, there does seem to be a difference between males of the different age groups, with the average number for male adults being about 190 and for male subadults being about 170. There also seems to be a difference between males and females, with males having a larger number of ticks. It also seems as though adults have a greater number of ticks compared to subadults. Based on the observed differences between males and females, as well as between age groups within males, it suggests that there is an association between sex, age, and the number of ticks. Therefore, we would think the null hypothesis is not true.
+
+```{r}
+lady.mat<- xtabs(tick_num ~ sex + age, data = bats)
+```
+
+```{r}
+lady.chi<-chisq.test(lady.mat)
+lady.chi
+lady.chi$expected
+```
+
+```{r}
+ggplot(totals, aes(x = age, y = total.number, fill = sex)) +
+  geom_bar(stat = 'identity', position = 'dodge') +
+  labs(
+    title = "Total Number of Ticks by Age and Sex of Bats",
+    x = "Age Group",
+    y = "Total Number of Ticks", caption = "Given the results of the Chi-square test for the number of ticks found on the bats and their sex or age, with a X-squared value of 0.33718, degrees of freedom= 1, and a p-value of 0.5615, we fail to reject the null hypothesis. This indicates that there is no significant association between the number of ticks found on the bats and their sex or age, as the p-value is greater than the 0.05 significance level.") +
+  theme_bw()
+
+```
+
+
+D. Disregarding species, is there a relationship in bats between tail length and body length?
+
+Both the predictor variable, body length, and the response variable, tail length, are continuous data, and since we are testing for a relationship between these two variables with only one predictor, a linear regression analysis is appropriate. The null hypothesis is that there is no relationship between body length and tail length, while the alternative hypothesis is that there is a relationship between body length and tail length.
+
+```{r}
+ggplot(bats, aes(x = body_length_mm, y = tail_length_mm))+
+  geom_point()
+```
+
+There appears to be a positive relationship between tail length and body length, where as body length increases, tail length also increases. The range for body length spans from 60 to 177, while the range for tail length spans from about 10 to 100. Based on this, the estimated slope of the relationship is approximately (100 - 10) / (177 - 60) = 0.77. The y-intercept seems to be around -10. There are no significant outliers evident in the data, and the distribution appears to be normal, suggesting a valid linear relationship between the two variables.
+
+```{r}
+model_bat3<- lm(tail_length_mm~body_length_mm, data = bats)
+```
+
+```{r}
+autoplot(model_bat3, smooth.colour = NA)
+```
+
+The diagnostic plots show that the model generally fits well. In the top left plot (Residuals vs. Fitted), the variance appears approximately equal suggesting homogeneity of variance and a good model fit. In the top right plot (Normal Q-Q), most data points closely follow the normal distribution, indicating that the residuals are approximately normally distributed. In the bottom left plot (Scale-Location), the variation appear similar. Finally, in the bottom right plot (Residuals vs. Leverage), the leverage appear to be about the same with a few datapoint having larger leverage but not too many to be concerning. Overall, the model assumptions seem to hold reasonably well.
+
+```{r}
+anova(model_bat3)
+```
+
+From the ANOVA, we see that the p-value is less than 0.05, indicating that the result is statistically significant, and F(1,123) = 1037.2, indicating a large effect size. The large F-value suggests that the variability in tail length is largely explained by the variability in body length, and the relationship between the two variables is strong. This provides evidence of a significant relationship in bats between tail length and body length, allowing us to reject the null hypothesis.
+
+```{r}
+summary(model_bat3)
+```
+
+In conclusion, the analysis of the relationship between body length and tail length in bats shows a statistically significant result. The estimated slope of 0.614 and intercept of -14.837 closely align with the predicted values, confirming a strong positive relationship between body length and tail length. The high F-statistic(1,123)= 1037 and low p-value  (2.2e-16) further support this significant relationship, with an R-squared value of 0.894 indicating that approximately 89.4% of the variation in tail length can be explained by body length. As a result, we reject the null hypothesis and conclude that body length is a significant predictor of tail length in bats.
+
+```{r}
+ggplot(bats, aes(x = body_length_mm, y = tail_length_mm))+
+  geom_point()+
+  geom_smooth(method = 'lm')+
+  theme_bw()+
+  labs(caption = "An ANOVA test revealed a significant positive relationship between body length and tail length in bats, F(1,123)=1037.2, p<0.05, indicating that body length is a strong predictor of tail length. The large F-value and R-squared of 0.894 suggest that 89.4% of the variation in tail length can be explained by body length. The estimated slope of 0.614 and intercept of -14.837 confirm this strong relationship, as the model aligns closely with predicted values. Given these results, we reject the null hypothesis and conclude that body length significantly predicts tail length in bats.
+", x="Body Length(mm)", y="Tail Length(mm)", title= "Body Length(mm) vs Tail Length(mm)")
+
+```
+
+Adding the method = 'lm' shows that a linear model is correct for this test and the two variables are related. 
