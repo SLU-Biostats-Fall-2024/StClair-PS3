@@ -30,8 +30,7 @@ levels(bats$type)
 #making sure the levels are correct and there are no misspelled names
 ```
 
-A. Does body mass differ between these five species of bats and, if so, how does body mass differ between the species? 
-- Species the predictor variable is categorical and body mass the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body mass (mass_g) between the five species of bats and the Alternative Hypothesis is that there is a difference in body mass (mass_g) between at least two of the five species of bats.
+A. Does body mass differ between these five species of bats and, if so, how does body mass differ between the species? - Species the predictor variable is categorical and body mass the response variable is continuous and because we are looking to see if there is a difference between group means, the samples are independent, and there are more than two groups to compare an ANOVA should be run and if a significant difference is found a tukeyHSD should be run as well. The Null Hypothesis is that there is no difference in body mass (mass_g) between the five species of bats and the Alternative Hypothesis is that there is a difference in body mass (mass_g) between at least two of the five species of bats.
 
 ```{r}
 ggplot(bats, aes(x = Species, y=mass_g))+
@@ -147,8 +146,7 @@ ggplot(bats, aes(Species, body_length_mm, color = Species))+
 F(4,120)=70.498,p<0.05, suggesting considerable variation across species. Post-hoc Tukey’s HSD results revealed that each species has a unique mean body length, with LACI showing the longest mean length, 22.64mm greater than EPFU, while PESU had the shortest, 39.52mm less than EPFU. LANO and MYLU also showed significantly shorter body lengths than EPFU, with differences of -16.72mm and -31.04mm, respectively. The CLD output confirmed significant pairwise differences, with body length ranking from highest in LACI to lowest in PESU.")
 ```
 
-C. Is the number of ticks found on the bats associated with their sex or age? The response variable, number of ticks found, is discrete, and there are two categorical predictor variables (sex and age). We are interested in determining whether there is an association between the number of ticks and these categorical variables. Since we are examining the relationship between two categorical variables, the appropriate test to run is the Chi-square test of independence. This test will assess whether the observed distribution of ticks differs significantly from what would be expected if sex and age were independent of the number of ticks.
-The null hypothesis is that there is no association between the number of ticks and the sex or age of the bats. Alternative Hypothesis is that there is an association between the number of ticks and the sex or age of the bats.
+C. Is the number of ticks found on the bats associated with their sex or age? The response variable, number of ticks found, is discrete, and there are two categorical predictor variables (sex and age). We are interested in determining whether there is an association between the number of ticks and these categorical variables. Since we are examining the relationship between two categorical variables, the appropriate test to run is the Chi-square test of independence. This test will assess whether the observed distribution of ticks differs significantly from what would be expected if sex and age were independent of the number of ticks. The null hypothesis is that there is no association between the number of ticks and the sex or age of the bats. Alternative Hypothesis is that there is an association between the number of ticks and the sex or age of the bats.
 
 ```{r}
 totals<- bats |> group_by(age, sex)|>
@@ -183,7 +181,6 @@ ggplot(totals, aes(x = age, y = total.number, fill = sex)) +
 
 ```
 
-
 D. Disregarding species, is there a relationship in bats between tail length and body length?
 
 Both the predictor variable, body length, and the response variable, tail length, are continuous data, and since we are testing for a relationship between these two variables with only one predictor, a linear regression analysis is appropriate. The null hypothesis is that there is no relationship between body length and tail length, while the alternative hypothesis is that there is a relationship between body length and tail length.
@@ -215,7 +212,7 @@ From the ANOVA, we see that the p-value is less than 0.05, indicating that the r
 summary(model_bat3)
 ```
 
-In conclusion, the analysis of the relationship between body length and tail length in bats shows a statistically significant result. The estimated slope of 0.614 and intercept of -14.837 closely align with the predicted values, confirming a strong positive relationship between body length and tail length. The high F-statistic(1,123)= 1037 and low p-value  (2.2e-16) further support this significant relationship, with an R-squared value of 0.894 indicating that approximately 89.4% of the variation in tail length can be explained by body length. As a result, we reject the null hypothesis and conclude that body length is a significant predictor of tail length in bats.
+In conclusion, the analysis of the relationship between body length and tail length in bats shows a statistically significant result. The estimated slope of 0.614 and intercept of -14.837 closely align with the predicted values, confirming a strong positive relationship between body length and tail length. The high F-statistic(1,123)= 1037 and low p-value (2.2e-16) further support this significant relationship, with an R-squared value of 0.894 indicating that approximately 89.4% of the variation in tail length can be explained by body length. As a result, we reject the null hypothesis and conclude that body length is a significant predictor of tail length in bats.
 
 ```{r}
 ggplot(bats, aes(x = body_length_mm, y = tail_length_mm))+
@@ -227,4 +224,4 @@ ggplot(bats, aes(x = body_length_mm, y = tail_length_mm))+
 
 ```
 
-Adding the method = 'lm' shows that a linear model is correct for this test and the two variables are related. 
+Adding the method = 'lm' shows that a linear model is correct for this test and the two variables are related.
